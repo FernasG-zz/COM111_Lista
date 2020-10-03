@@ -197,7 +197,7 @@ int removePorMatricula(Lista *li, int mat)
 int consultaListaPosicao(Lista *li, int pos, Aluno *al)
 {
     if(li == NULL || pos <= 0) return 0;
-    Elemento *no = li;
+    Elemento *no = *li;
     int i = 1;
     while(no != NULL && i < pos){ //Percorre a lista ate a posicao passada
         no = no->prox;
@@ -225,5 +225,13 @@ int consultaListaMatricula(Lista *li, int mat, Aluno *al)
     else{
         *al = no->dados;
         return 1;
+    }
+}
+
+void imprimirLista(Lista *li){
+    Elemento *no = *li;
+    
+    while(no != NULL){
+        printf("Matricula: %d", no->dados.matricula);
     }
 }

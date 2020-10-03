@@ -7,9 +7,9 @@ typedef struct aluno
 
 typedef struct elemento
 {
-    Elemento *ant;
+    struct elemento *ant;
+    struct elemento *prox;
     Aluno dados;
-    Elemento *prox;
 } Elemento;
 
 typedef Elemento *Lista;
@@ -37,3 +37,5 @@ int removePorMatricula(Lista *li, int mat);
 int consultaListaPosicao(Lista *li, int pos, Aluno *al);
 
 int consultaListaMatricula(Lista *li, int mat, Aluno *al);
+
+void imprimirLista(Lista *li);
