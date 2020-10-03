@@ -101,3 +101,129 @@ int insereFinalLista(Lista *li, Aluno al)
     }
     return 1;
 }
+
+int insereOrdenadamente(Lista *li, Aluno al)
+{   
+    if(li == NULL) return 0;
+
+    Elemento *no = (Elemento *)malloc(sizeof(Elemento));
+    if(no == NULL) return 0;
+
+    no->dados = al;
+    if(vaziaLista(li)){
+        no->prox = NULL;
+        no->ant = NULL;
+        return 1;
+    }else{
+        Elemento *ante, *atual = *li;
+
+        while(atual != NULL && atual->dados.matricula < al.matricula){ //Loop aque faz as comparacoes
+            ante = atual;
+            atual = atual->prox;
+        }
+
+        if(atual == *li){ //Se o matricula for o primeiro elemento da lista
+            no->ant = NULL;
+            (*li)->ant = no;
+            no->prox = (*li);
+            *li = no;
+        }else{//Se nao for o inicio da lista a insercao é no meio ou no final
+            no->prox = ante->prox;
+            no->ant = ante;
+            ante->prox = no;
+            if(atual != NULL)
+                atual->ant = no;
+        }
+        
+        return 1;
+    }
+
+}
+
+int removeInicioLista(Lista *li)
+{
+    if(li == NULL) return 0;
+    if((*li) == NULL) return 0;
+
+    Elemento *no = *li;
+    *li = no->prox;
+    if(no->prox != NULL)
+        no->prox->ant = NULL;
+    
+    free(no);
+    return 1;
+}
+
+int removeFinalLista(Lista *li)
+{
+    if(li == NULL) return 0;
+    if((*li) == NULL) return 0;
+
+    Elemento *no = *li;
+    while(no->prox != NULL)//Percorrer a lista ate NULL
+        no = no->prox;
+
+    if(no->ant == NULL)//Se a lista tiver somente um elemnto remove ele
+        *li = no->prox;
+    else
+        no->ant->prox = NULL;            
+    
+    free(no);
+    return 1;
+}  
+
+int removePorMatricula(Lista *li, int mat)
+{
+    if(li == NULL) return 0;
+    Elemento *no = *li;
+
+    while(no != NULL && no->dados.matricula != mat){//Percorre lista em busca da matricula
+        no = no->prox;
+    }
+
+    if(no == NULL) return 0; // Nao encontrou a matricula
+    if(no->ant == NULL) //Remove primeiro elemento
+        *li = no->prox;
+    else     //Removendo no meio
+        no->ant->prox = no->prox;
+
+    if(no->prox != NULL)// Remove no final
+        no->prox->ant = no->ant;
+
+    free(no);
+    return 1;
+} 
+
+int consultaListaPosicao(Lista *li, int pos, Aluno *al)
+{
+    if(li == NULL || pos <= 0) return 0;
+    Elemento *no = li;
+    int i = 1;
+    while(no != NULL && i < pos){ //Percorre a lista ate a posicao passada
+        no = no->prox;
+        i++;
+    } 
+    if(no == NULL)
+        return 0;
+    else {
+        *al = no->dados; //Retorna informacoes referente a posicao
+        return 1;
+    }
+}   
+
+int consultaListaMatricula(Lista *li, int mat, Aluno *al)
+{
+    if (li == NULL) return 0;
+    Elemento *no = *li;
+
+    while (no != NULL && no->dados.matricula != mat){
+        no = no->prox;
+    }
+
+    if(no == NULL)
+        return 0;
+    else{
+        *al = no->dados;
+        return 1;
+    }
+}

@@ -25,3 +25,15 @@ int vaziaLista(Lista *li);
 int insereInicioLista(Lista *li, Aluno al);
 
 int insereFinalLista(Lista *li, Aluno al);
+
+int insereOrdenadamente(Lista *li, Aluno al);
+
+int removeInicioLista(Lista *li);
+
+int removeFinalLista(Lista *li);
+
+int removePorMatricula(Lista *li, int mat);
+
+int consultaListaPosicao(Lista *li, int pos, Aluno *al);
+
+int consultaListaMatricula(Lista *li, int mat, Aluno *al);
