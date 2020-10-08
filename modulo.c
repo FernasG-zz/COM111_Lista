@@ -6,7 +6,7 @@ Lista *criaLista()
 {
     Lista *li = (Lista *)malloc(sizeof(Lista));
 
-    if (li != NULL)
+    if (li == NULL)
         *li = NULL;
 
     return li;
@@ -230,8 +230,17 @@ int consultaListaMatricula(Lista *li, int mat, Aluno *al)
 
 void imprimirLista(Lista *li){
     Elemento *no = *li;
-    
-    while(no != NULL){
-        printf("Matricula: %d", no->dados.matricula);
+
+    if(li != NULL){
+        while(no != NULL){
+            printf("\nMatricula: %d", no->dados.matricula);
+            printf("\nNome: %s", no->dados.nome);
+            printf("\nNota 1: %f", no->dados.n1);
+            printf("\nNota 2: %f", no->dados.n2);
+            printf("\nNota 3: %f", no->dados.n3);
+
+
+            no = no->prox;
+        }
     }
 }

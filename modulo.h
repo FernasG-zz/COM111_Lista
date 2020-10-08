@@ -1,3 +1,6 @@
+#ifndef LISTA
+#define LISTA
+
 typedef struct aluno
 {
     int matricula;
@@ -39,3 +42,5 @@ int consultaListaPosicao(Lista *li, int pos, Aluno *al);
 int consultaListaMatricula(Lista *li, int mat, Aluno *al);
 
 void imprimirLista(Lista *li);
+
+#endif
