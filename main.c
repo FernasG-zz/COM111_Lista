@@ -39,7 +39,7 @@ int main()
         case 2:
             res = liberarLista(li);
 
-            if (res)
+            if (res == 1)
                 printf("\nLista liberada com sucesso!");
             else
                 printf("\nLista nao liberada!");
