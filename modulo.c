@@ -9,12 +9,20 @@ struct celula
     struct celula *prox;
 };
 
-int criarValor(int *valor)
+int criarValor(void)
 {
-    printf("\nDigite um valor: ");
-    scanf("%d", valor);
+    int valor;
+    printf("Digite um valor: ");
+    scanf("%i", &valor);
 
-    return 1;
+    return valor;
+}
+
+Celula *alocarCelula()
+{
+    Celula *no = (Celula *)malloc(sizeof(Celula));
+
+    return no;
 }
 
 Lista *alocarLista()
@@ -33,36 +41,36 @@ int liberarLista(Lista *li)
         return 0;
 
     Celula *no;
-    while (*li != NULL)
+    while (*li != NULL) // percorre os nos liberando o ultimo repetidamente
     {
         no = *li;
         *li = (*li)->prox;
         free(no);
     }
 
-    free(li);
+    free(li); // libera a cabeca da lista
 
     return 1;
 }
 
-int inserirInicioLista(Lista *li, int dado)
+int inserirInicioLista(Lista *li)
 {
     if (li == NULL) // verifica se a lista existe
         return 0;
 
-    Celula *no;
-    no = alocarCelula();
+    int dado = criarValor();
+    Celula *no = alocarCelula();
 
     if (no == NULL) // verifica se no foi criado corretamente
         return 0;
 
-    if (*li == NULL)
+    if (*li == NULL) // se lista vazia, insere no comeco
     {
         no->valor = dado;
         no->prox = no->ant = NULL;
         *li = no;
     }
-    else
+    else // se cheia, cabeca aponta para novo no, novo no aponta para proximo no
     {
         no->valor = dado;
         no->ant = NULL;
@@ -74,31 +82,30 @@ int inserirInicioLista(Lista *li, int dado)
     return 1;
 }
 
-int inserirFinalLista(Lista *li, int dado)
+int inserirFinalLista(Lista *li)
 {
     if (li == NULL) // verifica se a lista existe
         return 0;
 
+    int dado = criarValor();
     Celula *no = alocarCelula();
 
     if (no == NULL) // verifica se no foi criado corretamente
         return 0;
 
-    if ((*li) == NULL)
+    if ((*li) == NULL) // se lista vazia, insere no inicio
     {
         no->valor = dado;
         no->prox = no->ant = NULL;
         *li = no;
     }
-    else
+    else // se cheia, insere no final
     {
         Celula *aux;
         aux = *li;
 
-        while (aux->prox != NULL)
-        {
+        while (aux->prox != NULL) // percorre a lista ate o final
             aux = aux->prox;
-        }
 
         no->valor = dado;
         no->ant = aux;
@@ -109,26 +116,27 @@ int inserirFinalLista(Lista *li, int dado)
     return 1;
 }
 
-int inserirOrdemLista(Lista *li, int dado)
+int inserirOrdemLista(Lista *li)
 {
     if (li == NULL) // verifica se a lista existe
         return 0;
 
-    Celula *no;
-    no = alocarCelula();
+    int dado = criarValor();
+
+    Celula *no = alocarCelula();
 
     if (no == NULL) // verifica se no foi criado corretamente
         return 0;
 
     no->valor = dado;
 
-    if ((*li) == NULL)
+    if ((*li) == NULL) // se lista vazia, insere no inicio
     {
         no->prox = NULL;
         no->ant = NULL;
         *li = no;
     }
-    else
+    else // se cheia
     {
         Celula *anterior, *atual;
         atual = *li;
@@ -167,17 +175,14 @@ int removerInicioLista(Lista *li)
         return 0;
 
     if ((*li) == NULL)
-    {
         return 0;
-    }
 
     Celula *atual;
     atual = *li;
     *li = atual->prox;
+
     if (atual->prox != NULL)
-    {
         atual->prox->ant = NULL;
-    }
 
     free(atual);
 
@@ -190,79 +195,63 @@ int removerFinalLista(Lista *li)
         return 0;
 
     if ((*li) == NULL)
-    {
         return 0;
-    }
 
     Celula *atual;
     atual = *li;
 
     while (atual->prox != NULL)
-    {
         atual = atual->prox;
-    }
 
     if (atual->ant == NULL)
-    {
         *li = atual->prox;
-    }
     else
-    {
         atual->ant->prox = NULL;
-    }
 
     free(atual);
 
     return 1;
 }
 
-int removerEspecifico(Lista *li, int dado)
+int removerEspecifico(Lista *li)
 {
     if (li == NULL) // verifica se a lista existe
         return 0;
 
     if ((*li) == NULL)
-    {
         return 0;
-    }
+
+    int dado = criarValor();
 
     Celula *atual;
     atual = *li;
 
     while (atual != NULL && atual->valor != dado)
-    {
         atual = atual->prox;
-    }
 
     if (atual == NULL)
-    {
         return 0;
-    }
 
     if (atual->ant == NULL)
-    {
         *li = atual->prox;
-    }
     else
-    {
         atual->ant->prox = atual->prox;
-    }
 
     if (atual->prox != NULL)
-    {
         atual->prox->ant = atual->ant;
-    }
 
     free(atual);
     return 1;
 }
 
-int buscaCelulaPosicao(Lista *li, int pos, int *dado)
+int buscaCelulaPosicao(Lista *li)
 {
+    int pos;
+    printf("\nPosição do elemento a ser buscado: ");
+    scanf("%d", &pos);
+
     if (li == NULL || (*li) == NULL || pos <= 0)
-    {
         return 0;
-    }
 
     Celula *no = *li;
     int i = 1;
@@ -275,43 +264,39 @@ int buscaCelulaPosicao(Lista *li, int pos, int *dado)
 
     if (no == NULL) // verifica se no foi criado corretamente
         return 0;
-    else
-    {
-        *dado = no->valor;
-    }
+
+    printf("\nElemento da %dª posição: %d", pos, no->valor);
 
     return 1;
 }
 
-int buscaCelulaDado(Lista *li, int dado, int *pos)
+int buscaCelulaDado(Lista *li)
 {
     if (li == NULL || (*li) == NULL)
-    {
         return 0;
-    }
+
+    int valor, pos = 1;
+    printf("\nValor a ser buscado: ");
+    scanf("%d", &valor);
 
     Celula *no = *li;
-    int i = 1;
 
-    while (no != NULL && no->valor != dado)
+    while (no != NULL && no->valor != valor)
     {
         no = no->prox;
-        i++;
+        pos++;
     }
 
     if (no == NULL) // verifica se no foi criado corretamente
         return 0;
-    else
-    {
-        *pos = i;
-    }
+
+    printf("\nElemento %d está na %dª posição", valor, pos);
 
     return 1;
 }
 
 int imprimirLista(Lista *li)
 {
-
     if (li == NULL || (*li) == NULL)
     {
         printf("\nLista não encontrada!");

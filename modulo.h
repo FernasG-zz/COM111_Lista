@@ -4,28 +4,27 @@
 typedef struct celula Celula;
 typedef Celula *Lista;
 
-int criarValor(int *valor);
-
-// gerenciamento
+//  gerenciamento
+int criarValor(void);
 Lista *alocarLista(void);
 Celula *alocarCelula(void);
 int liberarLista(Lista *li);
 
-// insercao
-int inserirInicioLista(Lista *li, int dado);
-int inserirFinalLista(Lista *li, int dado);
-int inserirOrdemLista(Lista *li, int dado);
+//  insercao
+int inserirInicioLista(Lista *li);
+int inserirFinalLista(Lista *li);
+int inserirOrdemLista(Lista *li);
 
-// remocao
+//  remocao
 int removerInicioLista(Lista *li);
 int removerFinalLista(Lista *li);
-int removerEspecifico(Lista *li, int dado);
+int removerEspecifico(Lista *li);
 
-//consulta
-int buscaCelulaPosicao(Lista *li, int pos, int *dado);
-int buscaCelulaDado(Lista *li, int dado, int *pos);
+//  consulta
+int buscaCelulaPosicao(Lista *li);
+int buscaCelulaDado(Lista *li);
 
-//imprimir lista
+//  imprimir lista
 int imprimirLista(Lista *li);
 
 #endif

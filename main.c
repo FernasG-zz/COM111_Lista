@@ -1,12 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "modulo.c"
 #include "modulo.h"
 
 int main()
 {
     Lista *li = NULL;
-    int opcao, res, valor, pos;
+    int opcao, res;
 
     do
     {
@@ -22,13 +21,19 @@ int main()
 
         switch (opcao)
         {
+
+        case 0:
+            liberarLista(li);
+            printf("\nFinalizando...\n\n");
+            return 0;
+            break;
         case 1:
             li = alocarLista();
 
             if (li != NULL)
                 printf("\nLista criada com sucesso!");
             else
-                printf("\nLista não criada!");
+                printf("\nLista nao criada!");
 
             break;
         case 2:
@@ -37,96 +42,75 @@ int main()
             if (res)
                 printf("\nLista liberada com sucesso!");
             else
-                printf("\nLista não liberada!");
+                printf("\nLista nao liberada!");
 
             break;
         case 3:
-            res = criarValor(&valor);
-            res = inserirInicioLista(li, valor);
+            res = inserirInicioLista(li);
 
             if (res == 1)
-                printf("\nInserção realizada com sucesso!");
+                printf("\nInsercao realizada com sucesso!");
             else
-                printf("\nFalha na inserção!");
+                printf("\nFalha na insercao!");
 
             break;
         case 4:
-            res = criarValor(&valor);
-            res = inserirFinalLista(li, valor);
+            res = inserirFinalLista(li);
 
             if (res == 1)
-                printf("\nInserção realizada com sucesso!");
+                printf("\nInsercao realizada com sucesso!");
             else
-                printf("\nFalha na inserção!");
+                printf("\nFalha na insercao!");
 
             break;
         case 5:
-            res = criarValor(&valor);
-            res = inserirOrdemLista(li, valor);
+            res = inserirOrdemLista(li);
 
             if (res == 1)
-                printf("\nInserção realizada com sucesso!");
+                printf("\nInsercao realizada com sucesso!");
             else
-                printf("\n Falha na inserção!");
+                printf("\n Falha na insercao!");
 
             break;
         case 6:
             res = removerInicioLista(li);
 
             if (res == 1)
-                printf("\nRemoção realizada com sucesso!");
+                printf("\nRemocao realizada com sucesso!");
             else
-                printf("\nFalha na remoção!");
+                printf("\nFalha na remocao!");
 
             break;
         case 7:
             res = removerFinalLista(li);
 
             if (res == 1)
-                printf("\nRemoção realizada com sucesso!");
+                printf("\nRemocao realizada com sucesso!");
             else
-                printf("\nFalha na remoção!");
+                printf("\nFalha na remocao!");
 
             break;
         case 8:
-            res = criarValor(&valor);
-            res = removerEspecifico(li, valor);
+            res = removerEspecifico(li);
 
             if (res == 1)
-                printf("\nRemoção realizada com sucesso!");
+                printf("\nRemocao realizada com sucesso!");
             else
-                printf("\nFalha na remoção, elemento não encontrado!");
+                printf("\nFalha na remocao, elemento nao encontrado!");
 
             break;
         case 9:
-            printf("\nPosição do elemento a ser buscado: ");
-            scanf("%d", &pos);
-            res = buscaCelulaPosicao(li, pos, &valor);
+            res = buscaCelulaPosicao(li);
 
-            if (res)
-            {
-                printf("\nBusca realizada com sucesso!");
-                printf("\nElemento da %dª posição: ", pos);
-                printf("%d", valor);
-            }
-            else
-                printf("\nPosição não existe!");
+            if (res == 0)
+                printf("\nPosicao nao existe!");
 
             break;
         case 10:
-            printf("\nValor a ser buscado: ");
-            scanf("%d", &valor);
+            res = buscaCelulaDado(li);
 
-            res = buscaCelulaDado(li, valor, &pos);
-
-            if (res)
-            {
-                printf("\n Busca realizada com sucesso!");
-                printf("\n Elemento da %dª posição: ", pos);
-                printf("%d", valor);
-            }
-            else
-                printf("\n Elemento não encontrado!");
+            if (res == 0)
+                printf("\nElemento nao encontrado!");
 
             break;
         case 11:
@@ -134,11 +118,10 @@ int main()
             break;
 
         default:
-            liberarLista(li);
-            printf("\nFinalizando...");
+            printf("\nOpcao invalida!");
             break;
         }
-    } while (opcao != 12);
+    } while (1 == 1);
 
     return 0;
 }
