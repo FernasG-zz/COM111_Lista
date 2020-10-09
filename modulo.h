@@ -1,46 +1,28 @@
-#ifndef LISTA
-#define LISTA
+#ifndef _MODULO
+#define _MODULO
 
-typedef struct aluno
-{
-    int matricula;
-    char nome[30];
-    float n1, n2, n3;
-} Aluno;
+typedef struct celula* Lista;
 
-typedef struct elemento
-{
-    struct elemento *ant;
-    struct elemento *prox;
-    Aluno dados;
-} Elemento;
+// gerenciamento
+Lista * criarLista();
+int liberarLista(Lista *li);
 
-typedef Elemento *Lista;
+// insercao 
+int inserirInicioLista(Lista *li, int dado);
+int inserirFinalLista(Lista *li, int dado);
+int inserirOrdemLista(Lista *li, int dado);
 
-Lista *criaLista();
+// remocao
+int removerInicioLista(Lista *li);
+int removerFinalLista(Lista *li);
+int removerEspecifico(Lista *li, int dado);
 
-void liberaLista(Lista *li);
+//consulta
+int buscaCelulaPosicao(Lista *li, int pos, int *dado);
+int buscaCelulaDado(Lista *li, int dado, int *pos);
 
-int tamanhoLista(Lista *li);
-
-int vaziaLista(Lista *li);
-
-int insereInicioLista(Lista *li, Aluno al);
-
-int insereFinalLista(Lista *li, Aluno al);
-
-int insereOrdenadamente(Lista *li, Aluno al);
-
-int removeInicioLista(Lista *li);
-
-int removeFinalLista(Lista *li);
-
-int removePorMatricula(Lista *li, int mat);
-
-int consultaListaPosicao(Lista *li, int pos, Aluno *al);
-
-int consultaListaMatricula(Lista *li, int mat, Aluno *al);
-
-void imprimirLista(Lista *li);
+//imprimir lista
+int imprimirLista(Lista *li);
 
 #endif
+
