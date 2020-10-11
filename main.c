@@ -9,13 +9,13 @@ int main()
 
     do
     {
-        printf("\n\n################### MENU DE OPCOES ###################");
-        printf("\n 0 - Sair\t\t\t 1 - Criar lista");
-        printf("\n 2 - Liberar lista\t\t 3 - Inserir inicio");
-        printf("\n 4 - Inserir final\t\t 5 - Inserir ordenado");
-        printf("\n 6 - Remover inicio\t\t 7 - Remover final");
+        printf("\n\n################# MENU DE OPCOES #################");
+        printf("\n 0 - Sair\t\t\t\t\t 1 - Criar lista");
+        printf("\n 2 - Liberar lista\t\t\t 3 - Inserir inicio");
+        printf("\n 4 - Inserir final\t\t\t 5 - Inserir ordenado");
+        printf("\n 6 - Remover inicio\t\t\t 7 - Remover final");
         printf("\n 8 - Remover especifico\t\t 9 - Buscar posição");
-        printf("\n10 - Buscar dado\t\t11 - Imprimir lista");
+        printf("\n10 - Buscar dado\t\t\t11 - Imprimir lista");
         printf("\nOpção: ");
         scanf("%d", &opcao);
 
