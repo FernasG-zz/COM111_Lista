@@ -1,11 +1,12 @@
 #ifndef _MODULO
 #define _MODULO
 
+typedef struct aluno Aluno;
 typedef struct celula Celula;
 typedef Celula *Lista;
 
 //  gerenciamento
-int criarValor(void);
+Aluno *alocarAluno(void);
 Lista *alocarLista(void);
 Celula *alocarCelula(void);
 int liberarLista(Lista *li);
@@ -26,5 +27,8 @@ int buscaCelulaDado(Lista *li);
 
 //  imprimir lista
 int imprimirLista(Lista *li);
+
+// reorganizar
+void preencherAluno(Aluno *al);
 
 #endif

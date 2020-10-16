@@ -2,20 +2,34 @@
 #include <stdio.h>
 #include "modulo.h"
 
-struct celula
+struct aluno
 {
-    struct celula *ant;
-    int valor;
-    struct celula *prox;
+    int matricula;
+    char nome[30];
+    float nota;
 };
 
-int criarValor(void)
+struct celula
 {
-    int valor;
-    printf("Digite um valor: ");
-    scanf("%i", &valor);
+    Celula *ant;
+    Aluno al;
+    Celula *prox;
+};
 
-    return valor;
+void preencherAluno(Aluno *al)
+{
+    printf("\nNome: ");
+    scanf("%s", al->nome);
+    printf("Matricula: ");
+    scanf("%d", &al->matricula);
+    printf("Nota: ");
+    scanf("%f", &al->nota);
+}
+
+Aluno *alocarAluno()
+{
+    Aluno *al = (Aluno *)malloc(sizeof(Aluno));
+    return al;
 }
 
 Celula *alocarCelula()
@@ -37,15 +51,15 @@ Lista *alocarLista()
 
 int liberarLista(Lista *li)
 {
-    if (li == NULL) // verifica se a lista existe
+    if (li == NULL) // verifica se a lista foi alocada
         return 0;
 
-    Celula *no;
+    Celula *aux;
     while (*li != NULL) // percorre os nos liberando o ultimo repetidamente
     {
-        no = *li;
+        aux = *li;
         *li = (*li)->prox;
-        free(no);
+        free(aux);
     }
 
     free(li); // libera a cabeca da lista
@@ -55,59 +69,53 @@ int liberarLista(Lista *li)
 
 int inserirInicioLista(Lista *li)
 {
-    if (li == NULL) // verifica se a lista existe
+    if (li == NULL) // verifica se a lista foi alocada corretamente
         return 0;
 
-    int dado = criarValor();
-    Celula *no = alocarCelula();
+    Aluno *al = alocarAluno(); // cria um aluno novo
+    preencherAluno(al);
+
+    Celula *no = alocarCelula(); // cria uma celula nova
 
     if (no == NULL) // verifica se no foi criado corretamente
         return 0;
 
-    if (*li == NULL) // se lista vazia, insere no comeco
-    {
-        no->valor = dado;
-        no->prox = no->ant = NULL;
-        *li = no;
-    }
-    else // se cheia, cabeca aponta para novo no, novo no aponta para proximo no
-    {
-        no->valor = dado;
-        no->ant = NULL;
-        no->prox = *li;
-        (*li)->ant = no;
-        *li = no;
-    }
+    no->al = *al;
+    no->ant = NULL;
+    no->prox = *li;
+    // (*li)->ant = NULL;
+    *li = no;
 
     return 1;
 }
 
 int inserirFinalLista(Lista *li)
 {
-    if (li == NULL) // verifica se a lista existe
+    if (li == NULL) // verifica se a lista foi alocada corretamente
         return 0;
 
-    int dado = criarValor();
-    Celula *no = alocarCelula();
+    Aluno *al = alocarAluno(); // cria um aluno novo
+    preencherAluno(al);
+
+    Celula *no = alocarCelula(); // cria uma celula nova
 
     if (no == NULL) // verifica se no foi criado corretamente
         return 0;
 
     if ((*li) == NULL) // se lista vazia, insere no inicio
     {
-        no->valor = dado;
+        no->al = *al;
         no->prox = no->ant = NULL;
         *li = no;
     }
     else // se cheia, insere no final
     {
-        Celula *aux;
-        aux = *li;
+        Celula *aux = *li;
 
         while (aux->prox != NULL) // percorre a lista ate o final
             aux = aux->prox;
 
-        no->valor = dado;
+        no->al = *al;
         no->ant = aux;
         no->prox = NULL;
         aux->prox = no;
@@ -118,50 +126,51 @@ int inserirFinalLista(Lista *li)
 
 int inserirOrdemLista(Lista *li)
 {
-    if (li == NULL) // verifica se a lista existe
+    if (li == NULL) // verifica se a lista foi alocada corretamente
         return 0;
 
-    int dado = criarValor();
+    Aluno *al = alocarAluno(); // cria um aluno novo
+    preencherAluno(al);
 
-    Celula *no = alocarCelula();
+    Celula *no = alocarCelula(); // cria uma celula nova
 
     if (no == NULL) // verifica se no foi criado corretamente
         return 0;
 
-    no->valor = dado;
+    no->al = *al;
 
     if ((*li) == NULL) // se lista vazia, insere no inicio
     {
-        no->prox = NULL;
-        no->ant = NULL;
+
+        no->prox = no->ant = NULL;
         *li = no;
     }
     else // se cheia
     {
-        Celula *anterior, *atual;
-        atual = *li;
+        Celula *anterior, *proximo;
+        proximo = *li;
 
-        while (atual != NULL && atual->valor < dado)
-        {
-            anterior = atual;
-            atual = atual->prox;
+        while (proximo != NULL && proximo->al.matricula < al->matricula)
+        { // percorre a lista ate achar o local correto
+            anterior = proximo;
+            proximo = proximo->prox;
         }
 
-        if (atual == (*li))
+        if (proximo == (*li)) // insere na primeira posicao
         {
             no->ant = NULL;
-            (*li)->ant = no;
             no->prox = (*li);
+            (*li)->ant = no;
             *li = no;
         }
-        else
+        else // insere no local encontrado
         {
-            no->prox = anterior->prox;
+            no->prox = proximo;
             no->ant = anterior;
             anterior->prox = no;
-            if (atual != NULL)
+            if (proximo != NULL)
             {
-                atual->ant = no;
+                proximo->ant = no;
             }
         }
     }
@@ -171,36 +180,36 @@ int inserirOrdemLista(Lista *li)
 
 int removerInicioLista(Lista *li)
 {
-    if (li == NULL) // verifica se a lista existe
-        return 0;
+    if (li == NULL) // verifica se a lista foi alocada corretamente
+        return 0;   // lista nao existe
 
-    if ((*li) == NULL)
-        return 0;
+    if ((*li) == NULL) // verifica se a lista foi criada corretamente
+        return 0;      // mas não contém nenhum valor
 
-    Celula *atual;
-    atual = *li;
-    *li = atual->prox;
+    Celula *aux;
+    aux = *li;
+    *li = aux->prox;
 
-    if (atual->prox != NULL)
-        atual->prox->ant = NULL;
+    if (aux->prox != NULL)
+        aux->prox->ant = NULL;
 
-    free(atual);
+    free(aux);
 
     return 1;
 }
 
 int removerFinalLista(Lista *li)
 {
-    if (li == NULL) // verifica se a lista existe
+    if (li == NULL) // verifica se a lista foi alocada corretamente
         return 0;
 
-    if ((*li) == NULL)
-        return 0;
+    if ((*li) == NULL) // verifica se a lista foi criada corretamente
+        return 0;      // mas não contém nenhum valor
 
     Celula *atual;
     atual = *li;
 
-    while (atual->prox != NULL)
+    while (atual->prox != NULL) // percorre lista até o final
         atual = atual->prox;
 
     if (atual->ant == NULL)
@@ -218,15 +227,15 @@ int removerEspecifico(Lista *li)
     if (li == NULL) // verifica se a lista existe
         return 0;
 
-    if ((*li) == NULL)
-        return 0;
+    if ((*li) == NULL) // verifica se a lista foi criada corretamente
+        return 0;      // mas não contém nenhum valor
 
     int dado = criarValor();
 
     Celula *atual;
     atual = *li;
 
-    while (atual != NULL && atual->valor != dado)
+    while (atual != NULL && atual->al.matricula != dado)
         atual = atual->prox;
 
     if (atual == NULL)
